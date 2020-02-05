@@ -18,8 +18,8 @@ export default class Chat extends Component<IChatProps, IChatState> {
         this.botman.setChatServer(this.props.conf.chatServer);
         //this.state.messages = [];
         //this.state.replyType = ReplyType.Text;
-        this.setState({ messages : [] });
-        this.setState({ replyType : ReplyType.Text });
+        this.setState({ messages: [] });
+        this.setState({ replyType: ReplyType.Text });
     }
 
     componentDidMount() {
@@ -206,6 +206,9 @@ export default class Chat extends Component<IChatProps, IChatState> {
 	        this.setState({
                 replyType: msg.additionalParameters.replyType
             });
+        }
+	    if (msg.additionalParameters && msg.additionalParameters.redirect) {
+            window.top.location.href = msg.additionalParameters.redirect;
         }
 	};
 }
