@@ -68,6 +68,10 @@ export interface IAction {
 
 export interface IConfiguration {
     /**
+     * The name of the driver to use
+     */
+    driver: string,
+    /**
      * The URL of the BotMan route / server to use.
      */
     chatServer: string,

@@ -5,6 +5,7 @@ class BotMan {
 
     userId: string;
     chatServer: string;
+    driver: string;
 
     setUserId(userId: string) {
         this.userId = userId;
@@ -14,10 +15,14 @@ class BotMan {
         this.chatServer = chatServer;
     }
 
+    setDriver(driver: string) {
+        this.driver = driver;
+    }
+
     callAPI = (text: string, interactive = false, attachment: IAttachment = null, perMessageCallback: Function, callback: Function) => {
         let data = new FormData();
         const postData: { [index: string]: string | Blob } = {
-            driver: 'web',
+            driver: this.driver,
             userId: this.userId,
             message: text,
             attachment: attachment as Blob,
