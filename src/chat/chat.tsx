@@ -16,10 +16,11 @@ export default class Chat extends Component<IChatProps, IChatState> {
         this.botman = botman;
         this.botman.setUserId(this.props.userId);
         this.botman.setChatServer(this.props.conf.chatServer);
+        this.botman.setDriver(this.props.conf.driver);
         //this.state.messages = [];
         //this.state.replyType = ReplyType.Text;
-        this.setState({ messages : [] });
-        this.setState({ replyType : ReplyType.Text });
+        this.setState({ messages: [] });
+        this.setState({ replyType: ReplyType.Text });
     }
 
     componentDidMount() {
@@ -206,6 +207,9 @@ export default class Chat extends Component<IChatProps, IChatState> {
 	        this.setState({
                 replyType: msg.additionalParameters.replyType
             });
+        }
+	    if (msg.additionalParameters && msg.additionalParameters.redirect) {
+            window.top.location.href = msg.additionalParameters.redirect;
         }
 	};
 }

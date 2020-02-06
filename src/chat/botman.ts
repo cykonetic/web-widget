@@ -3,8 +3,9 @@ import { IAttachment, IMessage } from './../typings';
 
 class BotMan {
 
-	userId: string;
-	chatServer: string;
+    userId: string;
+    chatServer: string;
+    driver: string;
 
     setUserId(userId: string) {
         this.userId = userId;
@@ -14,31 +15,35 @@ class BotMan {
         this.chatServer = chatServer;
     }
 
+    setDriver(driver: string) {
+        this.driver = driver;
+    }
+
     callAPI = (text: string, interactive = false, attachment: IAttachment = null, perMessageCallback: Function, callback: Function) => {
-    	let data = new FormData();
-    	const postData: { [index: string] : string|Blob } = {
-    		driver: 'web',
-    		userId: this.userId,
-    		message: text,
-    		attachment: attachment as Blob,
-    		interactive: interactive ? '1' : '0'
-    	};
+        let data = new FormData();
+        const postData: { [index: string]: string | Blob } = {
+            driver: this.driver,
+            userId: this.userId,
+            message: text,
+            attachment: attachment as Blob,
+            interactive: interactive ? '1' : '0'
+        };
 
-    	Object.keys(postData).forEach(key => data.append(key, postData[key]));
+        Object.keys(postData).forEach(key => data.append(key, postData[key]));
 
-    	axios.post(this.chatServer, data).then(response => {
-    		const messages = response.data.messages || [];
+        axios.post(this.chatServer, data).then(response => {
+            const messages = response.data.messages || [];
 
-			if (perMessageCallback) {
-				messages.forEach((msg: IMessage) => {
-					perMessageCallback(msg);
-				});
-			}
+            if (perMessageCallback) {
+                messages.forEach((msg: IMessage) => {
+                    perMessageCallback(msg);
+                });
+            }
 
-    		if (callback) {
-    			callback(response.data);
-    		}
-    	});
+            if (callback) {
+                callback(response.data);
+            }
+        });
     };
 
 }

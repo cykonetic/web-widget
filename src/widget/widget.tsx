@@ -160,7 +160,7 @@ export default class Widget extends Component<any, IWidgetState> {
         axios.post(this.props.conf.chatServer, data).then(response => {
             const messages = response.data.messages || [];
 
-            messages.forEach((message : IMessage) => {
+            messages.forEach((message: IMessage) => {
                 window.botmanChatWidget.writeToMessages(message);
             });
         });
